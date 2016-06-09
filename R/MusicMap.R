@@ -7,6 +7,9 @@
 
 # Important: References API Keys that weren't pushed to Github.
 
+#####################################
+## Gets the Spotify auth token
+#####################################
 
 getSpotifyToken <- function() {
   require(httr)
@@ -19,9 +22,9 @@ getSpotifyToken <- function() {
   ## Looks for keys in a subdirectory
   #####################################
 
-  spotify_auth <- 'https://accounts.spotify.com/api/token'
+
   key <- paste0('Basic ', base64(paste0(spotify.client_key, ':', spotify.secret_key)))
-  spotify_post <- POST(spotify.url,
+  spotify_post <- POST(spotify.auth.url,
                        body = list(grant_type = 'client_credentials'),
                        encoding = 'UTF-8',
                        encode = 'form',
@@ -32,8 +35,11 @@ getSpotifyToken <- function() {
 
 }
 getMusicList <- function() {
-  if (exists(spotify_token)) {
-    print("There's something")
+
+  if (exists("spotify_token")) {
+    spotify_list <- GET(spotify.playlist.url,
+                        add_headers("Authorization" = paste('Bearer', spotify_token)))
+    print(content(spotify_list))
   }
   else stop("There isn't a Spotify token stored in the environment!")
 }
