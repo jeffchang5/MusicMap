@@ -31,15 +31,22 @@ getSpotifyToken <- function() {
                        add_headers("Authorization" = key))
   spotify_token <<- content(spotify_post)$access_token
 
-
-
 }
-getMusicList <- function() {
 
+getMusicList <- function() {
+  require('plyr')
+  ## Spotify finds a list of featured music list
   if (exists("spotify_token")) {
-    spotify_list <- GET(spotify.playlist.url,
+    spotify_list <- GET(spotify.playlist.url[[1]],
                         add_headers("Authorization" = paste('Bearer', spotify_token)))
-    print(content(spotify_list))
+    musicList <<- content(spotify_list)
+    #$tracks$items[[96]]$track$artists[[2]]$name
+    list_of_artists <<- vector()
+    for (title in musicList$tracks$items) {
+      list_of_artists <- append(list_of_artists, title$track$artists[[1]]$name)
+    }
+    print(count(list_of_artists))
+
   }
   else stop("There isn't a Spotify token stored in the environment!")
 }
