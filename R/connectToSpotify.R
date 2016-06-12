@@ -45,7 +45,7 @@ getMusicList <- function() {
     for (title in musicList$tracks$items) {
       list_of_artists <- append(list_of_artists, title$track$artists[[1]]$name)
     }
-    print(count(list_of_artists))
+    return(count(list_of_artists))
 
   }
   else stop("There isn't a Spotify token stored in the environment!")
