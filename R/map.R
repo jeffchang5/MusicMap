@@ -1,5 +1,5 @@
-library(streamR)
 library(twitteR)
+library(streamR)
 library(ROAuth)
 library(maps)
 
@@ -46,5 +46,5 @@ map
 dev.off()
 
 # Tweet the map to the Music Map (@tedorour) account
-captions <- c("Who are America's most talked about artists??", "Hey America! Where are your favorite artists the most popular?", "Check out this heat map of America's most listened to artists!", "Where are people talking about the most popular of Billboard Top 100's artists?", "#music", "Truth:", "Data meets Music:", "Who's hot this week?", "Which of America's favorite artists are most talked about in your area?", "Who's hot?")
+captions <- c("Who are America's most talked about artists??", "Hey America! Where are your favorite artists the most popular?", "Check out this heat map of America's most listened to artists!", "Where are people talking about the most popular of Billboard Top 100's artists?", "#music", "Truth:", "Data meets Music:", "Who's hot this week?", "Which of America's favorite artists are most talked about in your area?", "Who's hot?", "Who's America listening to today?", "Tweet about your favorite artists to see them featured on our map!", "Who are people listening to in your area?", "Where in America is your favorite artist being talked about?", "What city loves your favorite artist?")
 tweet(sample(captions, 1), mediaPath = "map.png")
