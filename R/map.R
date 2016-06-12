@@ -1,11 +1,13 @@
-brary(streamR)
+library(streamR)
 library(twitteR)
+library(ROAuth)
+library(maps)
 
 #Access Keys
-consumer_key <- "u1pHQbqCtdrUnXaltsaQBbVnv"
-consumer_secret <- "Nq43c5BjqRysNwjOVqT8gCrgbtk0Hmy8GispuHQxSkunLGxc2q"
-access_token <- "741997171508154368-zrcDDA9LZI9sybPz5vULQnJ8KlwVGdq"
-access_secret <- "0G6mAnoqpibllUDcejmEFFv7NMS8HPTZoczHurg9FThAw"
+consumer_key <- "g5XBJgR4QJYutMp4UIQyMLlor"
+consumer_secret <- "4yPcnlvL28x9P6LizZ9Spu6aKZQv3ooh0oCielWBbMILFohhGD"
+access_token <- "741997171508154368-VeGhryW3k3wqtjp2xw4rkYDUhCMhoIu"
+access_secret <- "2c3Btxpy4ohf4AiXOVfOepaJN8lMheotEDxsdYX6gh7r9"
 requestURL <- "https://api.twitter.com/oauth/request_token"
 accessURL <- "https://api.twitter.com/oauth/access_token"
 authURL <- "https://api.twitter.com/oauth/authorize"
@@ -18,7 +20,7 @@ my_oauth$handshake(cainfo = system.file("CurlSSL", "cacert.pem", package = "RCur
 setup_twitter_oauth(consumer_key, consumer_secret, access_token, access_secret)
 
 #Vector of Artists
-artists <- c("drake", "rihanna", "bieber")
+artists <- scrapeTop50Artists()
 
 tweets.df <- data.frame()
 for (artist in artists) {
@@ -31,13 +33,13 @@ for (artist in artists) {
 library(ggplot2)
 library(grid)
 map.data <- map_data("state")
-points <- data.frame(x = as.numeric(tweets.df$lon), y = as.numeric(tweets.df$lat), artist = as.factor(tweets.df$artist))
+points <- data.frame(x = as.numeric(tweets.df$lon), y = as.numeric(tweets.df$lat), Artist = as.factor(tweets.df$Artist))
 points <- points[points$y > 25,]
 points <- points[points$x < -65,]
-map <- ggplot(map.data) + geom_map(aes(map_id = region), map = map.data, fill = "white", color = "grey20", size = 0.1) + expand_limits(x = map.data$long, y = map.data$lat) + geom_point(data = points, aes(x=x, y=y, color = Artist), size =1, alpha = 1/4)
+map <- ggplot(map.data) + geom_map(aes(map_id = region), map = map.data, fill = "white", color = "grey20", size = 0.1) + expand_limits(x = map.data$long, y = map.data$lat) + geom_point(data = points, aes(x=x, y=y, color = Artist), size =2, alpha = 1/2)
 
-png('map3.png', width = 1000, height = 600)
+png('map.png', width = 1000, height = 600)
 map
 dev.off()
 
-tweet("Who are America's most talked about artists??", mediaPath = "map.jpg")
+tweet("Where are America's favorite artists most talked about??", mediaPath = "map.png")
