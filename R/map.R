@@ -9,7 +9,8 @@ scrapeTop50Artists <- function() {
   top_artists <- read_html('http://www.billboard.com/charts/artist-100') %>%
     html_nodes('article > div.chart-row__primary > div.chart-row__main-display > div.chart-row__container > div > h2')%>%
     html_text()
-  return(top_artists[1:3])
+  random <- sample(1:50, 3)
+  return(top_artists[random])
 }
 
 #Call scrateTop50Artists() to generate vector of top 3 artists in America
